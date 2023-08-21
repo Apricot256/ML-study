@@ -3,3 +3,9 @@
 *.nav
 *.pdf
 *.snm
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
