@@ -83,9 +83,9 @@
 \begin{frame}{sigmoid関数}
     ロジット関数を使うことで特徴量と対数オッズの線形関係を表すことができる。
     \begin{equation*}
-        logit(p(y=1|\textbf{x})) = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \mathbf{w^T}\mathbf{x}
+        logit(p(y=1 \mid \textbf{x})) = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \mathbf{w^T}\mathbf{x}
     \end{equation*}
-    ここで\(p(y=1|\textbf{x})\)は特徴量\(x\)が与えられた場合にデータがクラス1に属する条件付き確率。
+    ここで\(p(y=1 \mid \textbf{x})\)は特徴量\(x\)が与えられた場合にデータがクラス1に属する条件付き確率。
     実際に関心があるのが、データが特定のクラスに所属している確率を予測することである。
     これはロジット関数の逆関数であるロジスティックシグモイド関数で実現できる。
     \begin{equation*}
@@ -110,7 +110,7 @@
 
 \begin{frame}{ロジスティック回帰}
     ロジスティック回帰モデルの構造を下図に示す。 \\
-    このシグモイド関数の出力はデータがクラス1に属している確率\(P(y=1|x;w)\)である。 \\
+    このシグモイド関数の出力はデータがクラス1に属している確率\(P(y=1 \mid x;w)\)である。 \\
     例えばあるデータに対して\(\phi(z)=0.8\)が算出された場合はIris-Versicolorである確率が80\%であることを意味する。
     あとは閾値関数を用いて二値の成果仕様に変換すれば良い。
     \begin{figure}[b]
@@ -136,8 +136,8 @@
     独立だと仮定して、ロジスティック回帰モデルの構築の際に最大化したい尤度\(L\)(ゆうど: 結果から見た条件のもっともらしさ)
     を定義する。
     \begin{equation*}
-        L(\textbf{w}) = P(y|\textbf{x};\textbf{w})
-        = \prod_{i=1}^n P(y^{(i)}|x^{(i)};\textbf{w})
+        L(\textbf{w}) = P(y \mid \textbf{x};\textbf{w})
+        = \prod_{i=1}^n P(y^{(i)} \mid x^{(i)};\textbf{w})
         = \prod_{i=1}^n (\phi (z^{(i)}))^{y^{(i)}} (1-\phi (z^{(i)}))^{1-y^{(i)}}
     \end{equation*}
     尤度は非常に小さくなる可能性があるので対数関数を適用する。\\
@@ -238,20 +238,20 @@
     \end{equation*}
     ここで、標準化を行うためにベクトルの長さを定義する。
     \begin{equation*}
-        ||\textbf{w}|| = \sqrt{{\textstyle \sum_{j=1}^{m} w_{j}^{2}}}
+        \Vert\textbf{w}\Vert = \sqrt{{\textstyle \sum_{j=1}^{m} w_{j}^{2}}}
     \end{equation*}
 \end{frame}
 
 \begin{frame}{最大マージン分類}
     ここで、ベクトルの長さをもとに式を標準化すると次の式が得られる。
     \begin{equation*}
-        \frac{\textbf{w}^T (\textbf{x}_{pos} - \textbf{x}_{neg})}{||\textbf{w}||} = \frac{2}{||\textbf{w}||}, 
+        \frac{\textbf{w}^T (\textbf{x}_{pos} - \textbf{x}_{neg})}{\Vert\textbf{w}\Vert} = \frac{2}{\Vert\textbf{w}\Vert}, 
     \end{equation*}
     この式の左辺は、正負の超平面間の距離として解釈することができる。\\
     これによって、正しく分類されたデータのもとで、SVMの目的関数を最大化する問題は
-    \(\frac{2}{||\textbf{w}||}\)、すなわちマージンを最大化する問題に帰着できる。\\
-    しかし、実際には\(\frac{2}{||\textbf{w}||}\)を最大化するのでなく、
-    逆数をとって二乗した\(\frac{1}{2}||\textbf{w}||^2\)を最小化するほうが簡単である。
+    \(\frac{2}{\Vert\textbf{w}\Vert}\)、すなわちマージンを最大化する問題に帰着できる。\\
+    しかし、実際には\(\frac{2}{\Vert\textbf{w}\Vert}\)を最大化するのでなく、
+    逆数をとって二乗した\(\frac{1}{2}\Vert\textbf{w}\Vert^2\)を最小化するほうが簡単である。
     これには、二次計画法を用いるため解説は省略する。
 \end{frame}
 
@@ -279,7 +279,7 @@
 \begin{frame}{ソフトマージン分類}
     したがって、最小化すべき新しい対象は次のようになる。
     \begin{equation*}
-        \frac{1}{2}||\textbf{w}||^2 + C(\sum_{i}^{}\xi^{(i)})
+        \frac{1}{2}\Vert\textbf{w}\Vert^2 + C(\sum_{i}^{}\xi^{(i)})
     \end{equation*}
     あとは、定数\(C\)を使って誤分類のペナルティを制御すれば良い。
     \(C\)が大きい場合は誤分類のペナルティが大きいことを示し、\(C\)が小さい場合は誤分類に対して寛大であることを示す。
@@ -342,7 +342,7 @@
     このように表される。
     \begin{equation*}
         \mathcal{K} (\textbf{x}^{(i)}, \textbf{x}^{(j)}) 
-        = \exp (-\gamma ||\textbf{x}^{(i)} - \textbf{x}^{(j)}||^2), 
+        = \exp (-\gamma \Vert\textbf{x}^{(i)} - \textbf{x}^{(j)}\Vert^2), 
         \gamma = \frac{1}{2\sigma ^2}
     \end{equation*}
     ここで\(\gamma \)は最適化されるハイパーパラメータである。
