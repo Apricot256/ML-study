@@ -27,7 +27,7 @@
 [Mac](https://docs.docker.com/desktop/install/mac-install/) /
 [Linux](https://docs.docker.com/desktop/install/linux-install/)
 - Visual Studio Code [install](https://code.visualstudio.com/download)
-- Dev Containers Extention Code [install](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- Dev Containers Extention [install](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
 ## 説明資料のコンパイル
 `.devcontainer/Dockerfile` の12行目をコメントアウトすると環境構築時に
