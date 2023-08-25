@@ -153,12 +153,12 @@
 \end{frame}
 
 \begin{frame}{入力}
-    信号の入力部分には重み\(w\)と呼ばれるベクトルが存在し、入力の影響力を表している。 \\
-    入力値\(\mathbf{x}\)と対応する重みベクトル\boldmath\(w\)の
+    信号の入力部分には重み\(\bm{w}\)と呼ばれるベクトルが存在し、入力の影響力を表している。 \\
+    入力値\(\bm{x}\)と対応する重みベクトル\(\bm{w}\)の
     線形結合として受け取る。この場合\(z\)は総入力(net input)と呼ばれる。
     \\
     \begin{equation*}
-        z = x_1w_1 + x_2w_2 + \cdots  + x_mw_m = \mathbf{w^T}\mathbf{x}
+        z = x_1w_1 + x_2w_2 + \cdots  + x_mw_m = \bm{w}^T\bm{x}
     \end{equation*}
     \\
     \begin{figure}[b]
@@ -169,7 +169,7 @@
 \end{frame}
 
 \begin{frame}{決定関数}
-    入力データ\(\mathbf(x)\)に対する総入力\(z\)が、指定された閾値\(\theta\)
+    入力データ\(\bm(x)\)に対する総入力\(z\)が、指定された閾値\(\theta\)
     よりも大きかった場合に1のクラスを予測し、それ以外の場合は-1のクラスを予測する。
     決定関数\(\phi(z)\)を定義すると以下のようになる。
     \begin{equation*}
@@ -187,7 +187,7 @@
     \(w_0 = -\theta\)および\(x_0 = 1\)として定義すると次の簡潔な式で
     総入力\(z\)を定義できる。
     \begin{equation*}
-        z = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \mathbf{w^T}\mathbf{x}
+        z = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \bm{w^T}\bm{x}
     \end{equation*}
     \begin{equation*}
         \phi(z) = 
@@ -206,22 +206,22 @@
 \begin{frame}{学習}
     パーセプトロンの学習規則は単純で以下の手順で行われる。
     \begin{enumerate}
-        \item 重み\(\textbf{w}\)を0か値の小さい乱数で初期化する。
-        \item 訓練データ\(\textbf{x}^{(i)}\)ごとに次の手順を実行する
+        \item 重み\(\bm{w}\)を0か値の小さい乱数で初期化する。
+        \item 訓練データ\(\bm{x}^{(i)}\)ごとに次の手順を実行する
         \begin{enumerate}
             \item 出力値\(\hat{y}\)を計算する。
-            \item より良い\(\hat{y}\)になるように重み\(\textbf{w}\)を更新する。
+            \item より良い\(\hat{y}\)になるように重み\(\bm{w}\)を更新する。
         \end{enumerate}
     \end{enumerate}
     \vspace{1em}
     ここでの出力値は先に定義した決定関数の出力\(\phi(z)\)の出力である。
-    重みベクトル\(\textbf{w}\)の各重み\(\textbf{w}_j\)に対する更新式は以下のようになる。
+    重みベクトル\(\bm{w}\)の各重み\(\bm{w}_j\)に対する更新式は以下のようになる。
     \begin{equation*}
         w_j := w_j + \Delta w_j
     \end{equation*}
-    実際には損失関数の負の勾配(後述)に学習率\(\nabla J(\textbf{w})\)を掛けたものとして定義される。
+    実際には損失関数の負の勾配(後述)に学習率\(\nabla J(\bm{w})\)を掛けたものとして定義される。
     \begin{equation*}
-        \Delta \textbf{w} = - \eta \nabla J(\textbf{w})
+        \Delta \bm{w} = - \eta \nabla J(\bm{w})
     \end{equation*}
 \end{frame}
 
@@ -231,12 +231,12 @@
     今回の場合は重みの更新に用いる損失関数\(J\)として、誤差平方和(Sum of Squared Error)を定義する。
     \vspace{1em}
     \begin{equation*}
-        J(\textbf{w}) = \frac{1}{2}\sum_{i}^{}(y^{(i)} - \phi(z^{(i)}))^2
+        J(\bm{w}) = \frac{1}{2}\sum_{i}^{}(y^{(i)} - \phi(z^{(i)}))^2
     \end{equation*}
     \rightline{\footnotesize ※偏微分係数を簡単にするために\(\frac{1}{2}\)を付けています。}\\
     \vspace{1em}
     利点はこの損失関数の利点は微分可能だということである。 \\
-    \(J\)を\(\textbf{w}\)で偏微分することによって勾配(微分係数のベクトル)を得ることができる。
+    \(J\)を\(\bm{w}\)で偏微分することによって勾配(微分係数のベクトル)を得ることができる。
 \end{frame}
 
 \begin{frame}{SSE(誤差平方和)の偏微分係数}
@@ -268,7 +268,7 @@
 \end{frame}
 
 \begin{frame}{学習率}
-    学習率を小さく設定しすぎると、少しずつしか重み\(\textbf{w}\)が更新されないので学習が遅くなる。 \\
+    学習率を小さく設定しすぎると、少しずつしか重み\(\bm{w}\)が更新されないので学習が遅くなる。 \\
     一方、学習率が大きすぎると大域的最小値を「超えて」しまうので、逆に誤差が大きくなる。\\
     したがって、適切な学習率を設定することが大切である。
     \begin{figure}[b]

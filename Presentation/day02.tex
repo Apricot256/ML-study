@@ -46,7 +46,7 @@
     パーセプトロンによって分類ができることは判明したが、視覚的には何を行っているか。 \\
     分類結果を図に表すと特徴量を下の式を満たす超平面で区切っていることがわかる。 \\
     \begin{equation*}
-        \textbf{W} \textbf{x} = 0
+        \bm{W} \bm{x} = 0
     \end{equation*}
     \begin{figure}[b]
         \begin{center}
@@ -83,17 +83,17 @@
 \begin{frame}{sigmoid関数}
     ロジット関数を使うことで特徴量と対数オッズの線形関係を表すことができる。
     \begin{equation*}
-        logit(p(y=1 \mid \textbf{x})) = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \mathbf{w^T}\mathbf{x}
+        logit(p(y=1 \mid \bm{x})) = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \bm{w^T}\bm{x}
     \end{equation*}
-    ここで\(p(y=1 \mid \textbf{x})\)は特徴量\(x\)が与えられた場合にデータがクラス1に属する条件付き確率。
+    ここで\(p(y=1 \mid \bm{x})\)は特徴量\(x\)が与えられた場合にデータがクラス1に属する条件付き確率。
     実際に関心があるのが、データが特定のクラスに所属している確率を予測することである。
     これはロジット関数の逆関数であるロジスティックシグモイド関数で実現できる。
     \begin{equation*}
         \phi(z) = \frac{1}{1+e^{-z}}
     \end{equation*}
-    ここで\(z\)は総入力である。つまり重み\(\textbf{w}\)と入力\(\textbf{x}\)の線形結合で以下のように表される。
+    ここで\(z\)は総入力である。つまり重み\(\bm{w}\)と入力\(\bm{x}\)の線形結合で以下のように表される。
     \begin{equation*}
-        z = \mathbf{w^T}\mathbf{x} = x_0w_0 + x_1w_1 + \cdots  + x_mw_m
+        z = \bm{w^T}\bm{x} = x_0w_0 + x_1w_1 + \cdots  + x_mw_m
     \end{equation*}
 \end{frame}
 
@@ -136,14 +136,14 @@
     独立だと仮定して、ロジスティック回帰モデルの構築の際に最大化したい尤度\(L\)(ゆうど: 結果から見た条件のもっともらしさ)
     を定義する。
     \begin{equation*}
-        L(\textbf{w}) = P(y \mid \textbf{x};\textbf{w})
-        = \prod_{i=1}^n P(y^{(i)} \mid x^{(i)};\textbf{w})
+        L(\bm{w}) = P(y \mid \bm{x};\bm{w})
+        = \prod_{i=1}^n P(y^{(i)} \mid x^{(i)};\bm{w})
         = \prod_{i=1}^n (\phi (z^{(i)}))^{y^{(i)}} (1-\phi (z^{(i)}))^{1-y^{(i)}}
     \end{equation*}
     尤度は非常に小さくなる可能性があるので対数関数を適用する。\\
     次に係数の積を係数の和に変換すると加算を用いて導関数を簡単に得ることができる。
     \begin{equation*}
-        l(\textbf{w}) = logL(\textbf{w})
+        l(\bm{w}) = logL(\bm{w})
         = \sum_{i=1}^{n} [y^{(i)} log(\phi (z^{(i)})) + (1-y^{(i)})log(1-\phi (z^{(i)}))]
     \end{equation*}
     これで勾配上昇法などのアルゴリズムを用いて対数尤度を最大化できるようになった。
@@ -153,15 +153,15 @@
     勾配上昇方のかわりの方法として勾配降下法を利用するために、最小化できる損失関数\(J\)
     として対数尤度を書き直すと次のようになる。
     \begin{equation*}
-        J(\textbf{w}) = -logL(\textbf{w})
+        J(\bm{w}) = -logL(\bm{w})
         = \sum_{i=1}^{n} [-y^{(i)} log(\phi (z^{(i)})) - (1-y^{(i)})log(1-\phi (z^{(i)}))]
     \end{equation*}
     この損失関数の理解のために、単一の学習データに対して計算されるコストを見てみる。
     \begin{equation*}
-        J(\phi (z), y;\textbf{w}) = -y log(\phi (z)) - (1-y)log(1-\phi (z))
+        J(\phi (z), y;\bm{w}) = -y log(\phi (z)) - (1-y)log(1-\phi (z))
     \end{equation*}
     \begin{equation*}
-        J(\phi (z), y;\textbf{w}) = 
+        J(\phi (z), y;\bm{w}) = 
         \begin{aligned}
             & \left\{ \,
                 \begin{aligned}
@@ -188,7 +188,7 @@
 \begin{frame}{ロジスティック回帰での勾配降下法}
     導出過程は省略するが、\(j\)番目の重みに対する偏導関数は次のようになる。
     \begin{equation*}
-        \frac{\partial}{\partial w_j}J(\textbf{w}) = (y - \phi(z))x_j
+        \frac{\partial}{\partial w_j}J(\bm{w}) = (y - \phi(z))x_j
     \end{equation*}
     % したがって、各重みの更新式は次のようになる。
     % \begin{equation*}
@@ -201,7 +201,7 @@
         = \eta \sum_{i=1}^{n} (y^{(i)} - \phi(z^{(i)}))x_{j}^{(i)}
     \end{equation*}
     \begin{equation*}
-        \textbf{w} := \textbf{w} + \Delta \textbf{w}, \Delta \textbf{w} = - \eta \frac{\partial J}{\partial w_j} 
+        \bm{w} := \bm{w} + \Delta \bm{w}, \Delta \bm{w} = - \eta \frac{\partial J}{\partial w_j} 
     \end{equation*}
     これはパーセプトロンの勾配降下法の規則に相当する。
 \end{frame}
@@ -226,32 +226,32 @@
         \begin{aligned}
             & \left\{ \,
                 \begin{aligned}
-                    & w_0 + \textbf{w}^T \textbf{x}_{pos} = 1 \\
-                    & w_0 + \textbf{w}^T \textbf{x}_{neg} = -1
+                    & w_0 + \bm{w}^T \bm{x}_{pos} = 1 \\
+                    & w_0 + \bm{w}^T \bm{x}_{neg} = -1
                 \end{aligned}
             \right.
         \end{aligned}
     \end{equation*}
     これらを引き算すると次のようになる。
     \begin{equation*}
-        \textbf{w}^T (\textbf{x}_{pos} - \textbf{x}_{neg}) = 2
+        \bm{w}^T (\bm{x}_{pos} - \bm{x}_{neg}) = 2
     \end{equation*}
     ここで、標準化を行うためにベクトルの長さを定義する。
     \begin{equation*}
-        \Vert\textbf{w}\Vert = \sqrt{{\textstyle \sum_{j=1}^{m} w_{j}^{2}}}
+        \Vert\bm{w}\Vert = \sqrt{{\textstyle \sum_{j=1}^{m} w_{j}^{2}}}
     \end{equation*}
 \end{frame}
 
 \begin{frame}{最大マージン分類}
     ここで、ベクトルの長さをもとに式を標準化すると次の式が得られる。
     \begin{equation*}
-        \frac{\textbf{w}^T (\textbf{x}_{pos} - \textbf{x}_{neg})}{\Vert\textbf{w}\Vert} = \frac{2}{\Vert\textbf{w}\Vert}, 
+        \frac{\bm{w}^T (\bm{x}_{pos} - \bm{x}_{neg})}{\Vert\bm{w}\Vert} = \frac{2}{\Vert\bm{w}\Vert}, 
     \end{equation*}
     この式の左辺は、正負の超平面間の距離として解釈することができる。\\
     これによって、正しく分類されたデータのもとで、SVMの目的関数を最大化する問題は
-    \(\frac{2}{\Vert\textbf{w}\Vert}\)、すなわちマージンを最大化する問題に帰着できる。\\
-    しかし、実際には\(\frac{2}{\Vert\textbf{w}\Vert}\)を最大化するのでなく、
-    逆数をとって二乗した\(\frac{1}{2}\Vert\textbf{w}\Vert^2\)を最小化するほうが簡単である。
+    \(\frac{2}{\Vert\bm{w}\Vert}\)、すなわちマージンを最大化する問題に帰着できる。\\
+    しかし、実際には\(\frac{2}{\Vert\bm{w}\Vert}\)を最大化するのでなく、
+    逆数をとって二乗した\(\frac{1}{2}\Vert\bm{w}\Vert^2\)を最小化するほうが簡単である。
     これには、二次計画法を用いるため解説は省略する。
 \end{frame}
 
@@ -264,8 +264,8 @@
         \begin{aligned}
             & \left\{ \,
                 \begin{aligned}
-                    & w_0 + \textbf{w}^T \textbf{x}_{pos}^{(i)} \geq  1 - \xi^{(i)} & \quad &(y^{(i)} = 1)\\
-                    & w_0 + \textbf{w}^T \textbf{x}_{neg}^{(i)} \leq  -1 + \xi^{(i)} & \quad &(y^{(i)} = -1)
+                    & w_0 + \bm{w}^T \bm{x}_{pos}^{(i)} \geq  1 - \xi^{(i)} & \quad &(y^{(i)} = 1)\\
+                    & w_0 + \bm{w}^T \bm{x}_{neg}^{(i)} \leq  -1 + \xi^{(i)} & \quad &(y^{(i)} = -1)
                 \end{aligned}
             \right.
         \end{aligned}
@@ -279,7 +279,7 @@
 \begin{frame}{ソフトマージン分類}
     したがって、最小化すべき新しい対象は次のようになる。
     \begin{equation*}
-        \frac{1}{2}\Vert\textbf{w}\Vert^2 + C(\sum_{i}^{}\xi^{(i)})
+        \frac{1}{2}\Vert\bm{w}\Vert^2 + C(\sum_{i}^{}\xi^{(i)})
     \end{equation*}
     あとは、定数\(C\)を使って誤分類のペナルティを制御すれば良い。
     \(C\)が大きい場合は誤分類のペナルティが大きいことを示し、\(C\)が小さい場合は誤分類に対して寛大であることを示す。
@@ -332,17 +332,17 @@
 \begin{frame}{カーネルトリック}
     この写像手法は問題を抱えており、新しい特徴量を生成した場合計算量が大幅に増える。
     それは高次元の特徴量を扱う場合、無視できなくなる。\\
-    カーネル手法ではベクトルのドッド積\(\textbf{x}^{(i)T}\textbf{x}^{(j)}\)を
-    \(\phi(\textbf{x}^{(j)})^T \phi(\textbf{x}^{(j)})\)に置き換えているが
+    カーネル手法ではベクトルのドッド積\(\bm{x}^{(i)T}\bm{x}^{(j)}\)を
+    \(\phi(\bm{x}^{(j)})^T \phi(\bm{x}^{(j)})\)に置き換えているが
     このドット積を計算すると計算コストが発生するためカーネルを定義する。
     \begin{equation*}
-        \mathcal{K} (\textbf{x}^{(i)}, \textbf{x}^{(j)}) = \phi(\textbf{x}^{(j)})^T \phi(\textbf{x}^{(j)})
+        \mathcal{K} (\bm{x}^{(i)}, \bm{x}^{(j)}) = \phi(\bm{x}^{(j)})^T \phi(\bm{x}^{(j)})
     \end{equation*}
     最も広く使われているカーネルの1つが動径基底関数カーネルであり「RBFカーネル」、「ガウスカーネル」などと呼ばれ、
     このように表される。
     \begin{equation*}
-        \mathcal{K} (\textbf{x}^{(i)}, \textbf{x}^{(j)}) 
-        = \exp (-\gamma \Vert\textbf{x}^{(i)} - \textbf{x}^{(j)}\Vert^2), 
+        \mathcal{K} (\bm{x}^{(i)}, \bm{x}^{(j)}) 
+        = \exp (-\gamma \Vert\bm{x}^{(i)} - \bm{x}^{(j)}\Vert^2), 
         \gamma = \frac{1}{2\sigma ^2}
     \end{equation*}
     ここで\(\gamma \)は最適化されるハイパーパラメータである。
