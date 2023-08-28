@@ -16,7 +16,8 @@
 				// Add the IDs of extensions you want installed when the container is created.
 				"extensions": [
 					"donjayamanne.python-extension-pack",
-                    "ms-toolsai.jupyter"
+                    "ms-toolsai.jupyter",
+					"James-Yu.latex-workshop"
 				]
 		}
 	}
