@@ -58,7 +58,7 @@
 
 \section{ロジスティック回帰}
 \begin{frame}{ロジスティック回帰}
-    パーセプトロンではクラスが1か-1かのみで分類していたが、
+    パーセプトロンではクラスが1か0かのみで分類していたが、
     これでは線形分離できなかった場合に学習が収束しなくなる。
     そこで、クラスに属する確率を予測するロジスティック回帰(Logistic regression)
     を見ていく。
@@ -83,7 +83,7 @@
 \begin{frame}{sigmoid関数}
     ロジット関数を使うことで特徴量と対数オッズの線形関係を表すことができる。
     \begin{equation*}
-        logit(p(y=1 \mid \bm{x})) = x_0w_0 + x_1w_1 + \cdots  + x_mw_m = \bm{w^T}\bm{x}
+        logit(p(y=1 \mid \bm{x})) = x_0x_1w_1 + \cdots  + x_mw_m = \bm{w^T}\bm{x}
     \end{equation*}
     ここで\(p(y=1 \mid \bm{x})\)は特徴量\(x\)が与えられた場合にデータがクラス1に属する条件付き確率。
     実際に関心があるのが、データが特定のクラスに所属している確率を予測することである。
@@ -93,7 +93,7 @@
     \end{equation*}
     ここで\(z\)は総入力である。つまり重み\(\bm{w}\)と入力\(\bm{x}\)の線形結合で以下のように表される。
     \begin{equation*}
-        z = \bm{w^T}\bm{x} = x_0w_0 + x_1w_1 + \cdots  + x_mw_m
+        z = \bm{w^T}\bm{x} = x_0x_1w_1 + \cdots  + x_mw_m
     \end{equation*}
 \end{frame}
 
@@ -226,32 +226,46 @@
         \begin{aligned}
             & \left\{ \,
                 \begin{aligned}
-                    & w_0 + \bm{w}^T \bm{x}_{pos} = 1 \\
-                    & w_0 + \bm{w}^T \bm{x}_{neg} = -1
+                    & \bm{w}^T \bm{x}_{pos} > 0 \\
+                    & \bm{w}^T \bm{x}_{neg} < 0
                 \end{aligned}
             \right.
         \end{aligned}
-    \end{equation*}
-    これらを引き算すると次のようになる。
-    \begin{equation*}
-        \bm{w}^T (\bm{x}_{pos} - \bm{x}_{neg}) = 2
     \end{equation*}
     ここで、標準化を行うためにベクトルの長さを定義する。
     \begin{equation*}
         \Vert\bm{w}\Vert = \sqrt{{\textstyle \sum_{j=1}^{m} w_{j}^{2}}}
     \end{equation*}
+    したがって、マージンの距離は次のように定義できる。
+    \begin{equation*}
+        M = \frac{\bm{w}^T \bm{x}_{pos}}{\Vert\bm{w}\Vert}
+        =\frac{-(\bm{w}^T \bm{x}_{neg})}{\Vert\bm{w}\Vert}
+    \end{equation*}
 \end{frame}
 
 \begin{frame}{最大マージン分類}
-    ここで、ベクトルの長さをもとに式を標準化すると次の式が得られる。
+    次の最適化問題を解くことで最大マージンを解くことができる。
     \begin{equation*}
-        \frac{\bm{w}^T (\bm{x}_{pos} - \bm{x}_{neg})}{\Vert\bm{w}\Vert} = \frac{2}{\Vert\bm{w}\Vert}, 
+        \max_{\bm{w}, b} M,
+        \frac{t_i(\bm{w}^T \bm{x}^{(i)})}{\Vert\bm{w}\Vert} \geq M,
+        t_i =
+        \begin{aligned}
+            & \left\{ \,
+                \begin{aligned}
+                    & 1  & (\bm{x}_i = pos) \\
+                    & -1 & (\bm{x}_i = neg)
+                \end{aligned}
+            \right.
+        \end{aligned}
     \end{equation*}
-    この式の左辺は、正負の超平面間の距離として解釈することができる。\\
+    サポートベクトルにおいては\(t_i(\bm{w}^T \bm{x}^{(i)})\)が成立するので
+    \begin{equation*}
+        M = \frac{t_i(\bm{w}^T \bm{x}^{(i)})}{\Vert\bm{w}\Vert} = \frac{1}{\Vert\bm{w}\Vert}
+    \end{equation*}
     これによって、正しく分類されたデータのもとで、SVMの目的関数を最大化する問題は
-    \(\frac{2}{\Vert\bm{w}\Vert}\)、すなわちマージンを最大化する問題に帰着できる。\\
-    しかし、実際には\(\frac{2}{\Vert\bm{w}\Vert}\)を最大化するのでなく、
-    逆数をとって二乗した\(\frac{1}{2}\Vert\bm{w}\Vert^2\)を最小化するほうが簡単である。
+    \(\frac{1}{\Vert\bm{w}\Vert}\)、すなわちマージンを最大化する問題に帰着できる。\\
+    しかし、実際には\(\frac{1}{\Vert\bm{w}\Vert}\)を最大化するのでなく、
+    逆数をとって二乗し2で割った\(\frac{1}{2}\Vert\bm{w}\Vert^2\)を最小化するほうが簡単である。
     これには、二次計画法を用いるため解説は省略する。
 \end{frame}
 
@@ -264,8 +278,8 @@
         \begin{aligned}
             & \left\{ \,
                 \begin{aligned}
-                    & w_0 + \bm{w}^T \bm{x}_{pos}^{(i)} \geq  1 - \xi^{(i)} & \quad &(y^{(i)} = 1)\\
-                    & w_0 + \bm{w}^T \bm{x}_{neg}^{(i)} \leq  -1 + \xi^{(i)} & \quad &(y^{(i)} = -1)
+                    & \bm{w}^T \bm{x}_{pos}^{(i)} \geq  1 - \xi^{(i)} & \quad &(y^{(i)} = 1)\\
+                    & \bm{w}^T \bm{x}_{neg}^{(i)} \leq  -1 + \xi^{(i)} & \quad &(y^{(i)} = -1)
                 \end{aligned}
             \right.
         \end{aligned}
